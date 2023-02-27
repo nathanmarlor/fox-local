@@ -26,5 +26,5 @@ jobs:
 
       - name: "Build Inventory Image"
         run: |
-          docker build . --tag ghcr.io/nathanmarlor/fox-local:${{ github.run_number }}
-          docker push ghcr.io/nathanmarlor/fox-local:${{ github.run_number }}
+          docker build . --tag ghcr.io/nathanmarlor/fox-local:dev-${{ github.run_number }}
+          docker push ghcr.io/nathanmarlor/fox-local:dev-${{ github.run_number }}
