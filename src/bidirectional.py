@@ -1,7 +1,8 @@
-import threading
 import logging
-from listen_connection import ListenConnection
+import threading
+
 from direct_connection import DirectConnection
+from listen_connection import ListenConnection
 
 _LOGGER = logging.getLogger(__name__)
 

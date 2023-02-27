@@ -2,12 +2,8 @@
   "image": "mcr.microsoft.com/devcontainers/python:0-3.11",
   "name": "Fox Local Dev",
   "context": "..",
-  "appPort": [
-    "10002:10001"
-  ],
-  "extensions": [
-    "ms-python.python"
-  ],
+  "appPort": ["10002:10001"],
+  "extensions": ["ms-python.python"],
   "settings": {
     "files.eol": "\n",
     "editor.tabSize": 4,

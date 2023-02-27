@@ -1,5 +1,6 @@
 import logging
 import sys
+
 from bidirectional import FoxBidirectional
 
 _LOGGER = logging.getLogger(__name__)

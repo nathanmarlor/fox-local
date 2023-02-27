@@ -1,7 +1,8 @@
+import logging
 import socket
 import threading
 import time
-import logging
+
 from base_connection import BaseConnection
 
 _LOGGER = logging.getLogger(__name__)
