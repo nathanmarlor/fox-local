@@ -16,7 +16,7 @@ class BaseConnection:
         self._receive_queue = queue.Queue()
 
     def start(self, stop_event, sock):
-        """Start threading loop"""
+        """Start threading"""
         send = threading.Thread(
             target=self._send_thread, args=(stop_event, sock, self._send_queue)
         )
