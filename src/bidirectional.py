@@ -1,6 +1,9 @@
 import threading
+import logging
 from listen_connection import ListenConnection
 from direct_connection import DirectConnection
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class FoxBidirectional:

@@ -1,5 +1,8 @@
 import threading
 import queue
+import logging
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class BaseConnection:
@@ -42,11 +45,11 @@ class BaseConnection:
             try:
                 data = send_queue.get(True, 1)
                 sock.sendall(data)
-                print(f"({self._host}) Sent: {data}")
+                _LOGGER.debug(f"Sent to ({self._host}): {data}")
             except queue.Empty:
                 continue
             except Exception as ex:
-                print(f"({self._host}) Send exception: {ex}")
+                _LOGGER.warning(f"({self._host}) Send exception: {ex}")
                 stop_event.set()
 
     def _receive_thread(self, stop_event, sock, receive_queue):
@@ -61,7 +64,7 @@ class BaseConnection:
                         f"({self._host}) - Connection closed by remote host"
                     )
                 receive_queue.put(data)
-                print(f"({self._host}) Received: {data}")
+                _LOGGER.debug(f"Received from ({self._host}): {data}")
             except Exception as ex:
-                print(f"({self._host}) Receive exception: {ex}")
+                _LOGGER.warning(f"({self._host}) Receive exception: {ex}")
                 stop_event.set()
