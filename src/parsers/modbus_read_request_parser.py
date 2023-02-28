@@ -10,7 +10,7 @@ class ModbusReadRequestParser(BaseParser):
     _message_type = 0x11
     _modbus_holding_read = 0x03
     _modbus_input_read = 0x04
-    _key = "modbusinputread"
+    _key = "modbusread"
 
     def can_parse(self, data: FoxBytes):
         """Can parse"""
