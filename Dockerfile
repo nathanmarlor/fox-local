@@ -9,4 +9,4 @@ COPY /src .
 
 EXPOSE 10001
 
-CMD [ "python3", "fox-local.py"]
+CMD [ "python3", "fox_local.py"]
