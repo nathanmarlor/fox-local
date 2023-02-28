@@ -4,11 +4,11 @@ from fox_bytes import FoxBytes
 from .base_parser import BaseParser
 
 
-class AnnounceParser(BaseParser):
+class DataLoggerAnnounce(BaseParser):
     """Inverter announce parser"""
 
     _message_type = 0x2A
-    _key = "announce"
+    _key = "dataloggerannounce"
     _message_start = 14
     _message_length = 15
 

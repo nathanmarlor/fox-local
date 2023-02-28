@@ -4,11 +4,11 @@ from fox_bytes import FoxBytes
 from .base_parser import BaseParser
 
 
-class SnParser(BaseParser):
+class InverterAnnounce(BaseParser):
     """Inverter serial number parser"""
 
     _message_type = 0x06
-    _key = "sn"
+    _key = "inverterannounce"
 
     def can_parse(self, data: FoxBytes):
         """Can parse"""

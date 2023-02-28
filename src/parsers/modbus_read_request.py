@@ -4,7 +4,7 @@ from fox_bytes import FoxBytes
 from .base_parser import BaseParser
 
 
-class ModbusReadRequestParser(BaseParser):
+class ModbusReadRequest(BaseParser):
     """Inverter announce parser"""
 
     _message_type = 0x11
