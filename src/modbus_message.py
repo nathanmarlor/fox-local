@@ -12,6 +12,10 @@ class ModbusMessage(FoxMessage):
         """Get modbus read address"""
         return (self[0xB] << 8) | self[0xC]
 
+    def get_length(self):
+        """Get modbus read length"""
+        return (self[0xD] << 8) | self[0xE]
+
     def is_read_request(self):
         """Is request"""
         return self[2] == self._request_message

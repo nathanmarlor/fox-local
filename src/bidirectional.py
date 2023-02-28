@@ -38,5 +38,5 @@ class FoxBidirectional:
             result = processor.parse(data)
             if result is not None:
                 _LOGGER.debug(f"Sending result to MQTT - {result}")
-                # forward to MQTT
+                # TODO: forward to MQTT
             server.send(data)

@@ -27,7 +27,7 @@ class FoxLocal:
             result = processor.parse(data)
             if result is not None:
                 _LOGGER.debug(f"Sending result to MQTT - {result}")
-                # forward to MQTT
+                # TODO: forward to MQTT
 
                 # if result has reply
                 #    send to inverter (client.send)

@@ -14,8 +14,8 @@ class FoxMessage(bytes):
 
     def is_info(self):
         """Info read message"""
-        start_marker = self[:2] == bytes.fromhex("7F7F")
-        end_marker = self[-2:] == bytes.fromhex("F7F7")
+        start_marker = self[:2] == bytes.fromhex("7E7E")
+        end_marker = self[-2:] == bytes.fromhex("E7E7")
 
         return all([start_marker, end_marker])
 

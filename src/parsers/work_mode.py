@@ -9,12 +9,13 @@ class WorkMode(ModbusParser, BaseParser):
     """Inverter workmode parser"""
 
     _key = "workmode"
+    _address = 41000
 
     def can_parse(self, data: ModbusMessage):
         """Can parse"""
-        return True  # and work mode address
+        return data.get_address() == self._address
 
     def parse(self, data: ModbusMessage):
         """Parse data"""
-        # parse out work mode bytes
-        return "test"
+        # TODO: parse out work mode bytes
+        return "workmode"
