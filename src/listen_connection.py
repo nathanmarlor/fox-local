@@ -1,3 +1,4 @@
+"""Listen connection"""
 import logging
 import socket
 import threading

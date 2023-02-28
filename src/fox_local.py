@@ -1,3 +1,4 @@
+"""Fox Local"""
 import logging
 import sys
 

@@ -1,6 +1,9 @@
+"""Base connection"""
 import logging
 import queue
 import threading
+
+from fox_bytes import FoxBytes
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -44,7 +47,7 @@ class BaseConnection:
                 break
             try:
                 data = send_queue.get(True, 1)
-                sock.sendall(data)
+                sock.sendall(bytes(data))
                 _LOGGER.debug(f"Sent to ({self._host}): {data}")
             except queue.Empty:
                 continue
@@ -58,7 +61,7 @@ class BaseConnection:
             if stop_event.is_set():
                 break
             try:
-                data = sock.recv(1024)
+                data = FoxBytes(sock.recv(1024))
                 if not data:
                     raise ConnectionError(
                         f"({self._host}) - Connection closed by remote host"

@@ -1,8 +1,10 @@
+"""Bidirectional communication"""
 import logging
 import threading
 
 from direct_connection import DirectConnection
 from listen_connection import ListenConnection
+from message_processor import MessageProcessor
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -28,6 +30,9 @@ class FoxBidirectional:
 
     def passthrough(self, client, server):
         """Loop to receive from inverter and send to cloud"""
+        processor = MessageProcessor()
+
         while True:
             data = client.receive()
+            processor.parse_response(data)
             server.send(data)

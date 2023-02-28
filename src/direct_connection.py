@@ -1,3 +1,4 @@
+"""Direct connection"""
 import logging
 import socket
 import threading
