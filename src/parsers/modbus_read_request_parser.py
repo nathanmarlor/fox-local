@@ -8,15 +8,19 @@ class ModbusReadRequestParser(BaseParser):
     """Inverter announce parser"""
 
     _message_type = 0x11
-    _modbus_read = 0x04
-    _key = "modbusread"
+    _modbus_holding_read = 0x03
+    _modbus_input_read = 0x04
+    _key = "modbusinputread"
 
     def can_parse(self, data: FoxBytes):
         """Can parse"""
         return (
             self.is_modbus(data)
             and (data[0x02] == self._message_type)
-            and (data[0x0A] == self._modbus_read)
+            and (
+                (data[0x0A] == self._modbus_holding_read)
+                or (data[0x0A] == self._modbus_input_read)
+            )
         )
 
     def parse(self, data: FoxBytes):

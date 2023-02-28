@@ -16,4 +16,4 @@ class SnParser(BaseParser):
 
     def parse(self, data: FoxBytes):
         """Parse data"""
-        return self._key, data.to_string(9, 15)
+        return self._key, data.to_string(13, 15)
