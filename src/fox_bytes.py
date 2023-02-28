@@ -6,7 +6,7 @@ class FoxBytes(bytes):
 
     def to_string(self, index):
         """Convert bytes to string"""
-        s = self[index : index + self.data_length()].decode("utf8")
+        s = self[index : index + self.data_length()].decode("utf8", "ignore")
         print(s)
         return s
 
