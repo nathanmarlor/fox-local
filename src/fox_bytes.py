@@ -4,9 +4,9 @@
 class FoxBytes(bytes):
     """Extensions to built in bytes"""
 
-    def to_string(self, index) -> str:
+    def to_string(self, index, length) -> str:
         """Convert bytes to string"""
-        return self[index : index + self.data_length()].decode("utf8", "ignore")
+        return self[index : index + length].decode("utf8", "ignore")
 
     def data_length(self) -> int:
         """Get length of data portion"""

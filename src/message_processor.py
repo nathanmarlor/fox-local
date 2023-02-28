@@ -17,4 +17,4 @@ class MessageProcessor:
             if parser.can_parse(data):
                 _LOGGER.info(f"Using parser - {parser.__module__}")
                 result = parser.parse(data)
-                _LOGGER.info(f"Got result - {result}")
+                _LOGGER.info(f"Parsed - {result}")

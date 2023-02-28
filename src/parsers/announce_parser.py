@@ -9,6 +9,8 @@ class AnnounceParser(BaseParser):
 
     _message_type = 0x2A
     _key = "announce"
+    _message_start = 14
+    _message_length = 15
 
     def can_parse(self, data: FoxBytes):
         """Can parse"""
@@ -16,4 +18,4 @@ class AnnounceParser(BaseParser):
 
     def parse(self, data: FoxBytes):
         """Parse data"""
-        return self._key, data.to_string(14)
+        return self._key, data.to_string(self._message_start, self._message_length)
