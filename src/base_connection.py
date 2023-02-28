@@ -3,7 +3,7 @@ import logging
 import queue
 import threading
 
-from fox_bytes import FoxBytes
+from fox_message import FoxMessage
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -61,7 +61,7 @@ class BaseConnection:
             if stop_event.is_set():
                 break
             try:
-                data = FoxBytes(sock.recv(1024))
+                data = FoxMessage(sock.recv(1024))
                 if not data:
                     raise ConnectionError(
                         f"({self._host}) - Connection closed by remote host"

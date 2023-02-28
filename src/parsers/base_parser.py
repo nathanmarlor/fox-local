@@ -17,9 +17,3 @@ class BaseParser:
         return (data[0] == 0x7E and data[1] == 0x7E) and (
             data[-1] == 0xE7 and data[-2] == 0xE7
         )
-
-    def is_modbus(self, data):
-        """Check if info message"""
-        return (data[0] == 0x7F and data[1] == 0x7F) and (
-            data[-1] == 0xF7 and data[-2] == 0xF7
-        )

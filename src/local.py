@@ -2,14 +2,13 @@
 import logging
 import threading
 
-from direct_connection import DirectConnection
 from listen_connection import ListenConnection
 from message_processor import MessageProcessor
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class FoxBidirectional:
+class FoxLocal:
     """Bidirectional class"""
 
     def run(self):
@@ -17,21 +16,11 @@ class FoxBidirectional:
         inverter_conn = ListenConnection("0.0.0.0", 10001)
         inverter_conn.initialise()
 
-        cloud_conn = DirectConnection("foxesscloud.com", 10001)
-        cloud_conn.initialise()
+        threading.Thread(target=self.local, args=(inverter_conn)).start()
 
+    def local(self, client):
+        """Loop to receive from inverter and send to MQTT"""
         processor = MessageProcessor()
-
-        threading.Thread(
-            target=self.passthrough, args=(processor, inverter_conn, cloud_conn)
-        ).start()
-
-        threading.Thread(
-            target=self.passthrough, args=(processor, cloud_conn, inverter_conn)
-        ).start()
-
-    def passthrough(self, processor, client, server):
-        """Loop to receive from inverter and send to cloud"""
 
         while True:
             data = client.receive()
@@ -39,4 +28,6 @@ class FoxBidirectional:
             if result is not None:
                 _LOGGER.debug(f"Sending result to MQTT - {result}")
                 # forward to MQTT
-            server.send(data)
+
+                # if result has reply
+                #    send to inverter (client.send)
