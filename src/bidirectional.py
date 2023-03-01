@@ -1,6 +1,8 @@
 """Bidirectional communication"""
 import logging
+import queue
 import threading
+import time
 
 from direct_connection import DirectConnection
 from listen_connection import ListenConnection
@@ -12,29 +14,48 @@ _LOGGER = logging.getLogger(__name__)
 class FoxBidirectional:
     """Bidirectional class"""
 
+    _stop_event = threading.Event()
+
     def run(self):
         """Run the loop"""
-        inverter_conn = ListenConnection("0.0.0.0", 10001)
-        inverter_conn.initialise()
 
-        cloud_conn = DirectConnection("foxesscloud.com", 10001)
-        cloud_conn.initialise()
+        while True:
+            self._stop_event.clear()
 
-        processor = MessageProcessor()
+            inverter_conn = ListenConnection(self._stop_event, "0.0.0.0", 10001)
+            inverter_conn.initialise()
 
-        threading.Thread(
-            target=self.passthrough, args=(processor, inverter_conn, cloud_conn)
-        ).start()
+            cloud_conn = DirectConnection(self._stop_event, "foxesscloud.com", 10001)
+            cloud_conn.initialise()
 
-        threading.Thread(
-            target=self.passthrough, args=(processor, cloud_conn, inverter_conn)
-        ).start()
+            processor = MessageProcessor()
+
+            inv_cloud = threading.Thread(
+                target=self.passthrough, args=(processor, inverter_conn, cloud_conn)
+            )
+
+            cloud_inv = threading.Thread(
+                target=self.passthrough, args=(processor, cloud_conn, inverter_conn)
+            )
+
+            inv_cloud.start()
+            cloud_inv.start()
+            inv_cloud.join()
+            cloud_inv.join()
+
+            _LOGGER.info("Restarting bidirectional event loop after 5s")
+            time.sleep(5)
 
     def passthrough(self, processor, client, server):
         """Loop to receive from inverter and send to cloud"""
 
         while True:
-            data = client.receive()
+            if self._stop_event.is_set():
+                break
+            try:
+                data = client.receive()
+            except queue.Empty:
+                continue
             result = processor.parse(data)
             if result is not None:
                 _LOGGER.debug(f"Sending result to MQTT - {result}")

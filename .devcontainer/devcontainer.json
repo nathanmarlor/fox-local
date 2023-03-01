@@ -2,7 +2,7 @@
   "image": "mcr.microsoft.com/devcontainers/python:0-3.11",
   "name": "Fox Local Dev",
   "context": "..",
-  "appPort": ["10001:10001"],
+  "appPort": ["10002:10001"],
   "extensions": ["ms-python.python"],
   "settings": {
     "files.eol": "\n",

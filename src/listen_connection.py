@@ -1,8 +1,8 @@
 """Listen connection"""
 import logging
+import select
 import socket
 import threading
-import time
 
 from base_connection import BaseConnection
 
@@ -18,20 +18,23 @@ class ListenConnection(BaseConnection):
 
     def _initialise(self):
         """Internal loop to maintain connection"""
-        while True:
-            stop_event = threading.Event()
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_sock:
             try:
-                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_sock:
-                    server_sock.bind((self._host, self._port))
-                    server_sock.listen()
-                    _LOGGER.info(f"Listening on {self._host}:{self._port}")
-
-                    client_sock, addr = server_sock.accept()
-                    _LOGGER.info(f"Connected to {addr}")
-
-                    with client_sock:
-                        self.start(stop_event, client_sock)
+                server_sock.bind((self._host, self._port))
+                server_sock.listen(1)
+                _LOGGER.info(f"Listening on {self._host}:{self._port}")
+                while True:
+                    if self._stop_event.is_set():
+                        break
+                    read, _, _ = select.select([server_sock], [], [], 1)
+                    if server_sock in read:
+                        try:
+                            client_socket, addr = server_sock.accept()
+                            _LOGGER.info(f"Connected to {addr}")
+                            with client_socket:
+                                self.start(client_socket)
+                        except socket.error as ex:
+                            _LOGGER.warning(f"Error accepting connection: {ex}")
             except socket.error as ex:
                 _LOGGER.warning(f"Listener ({self._host}) socket exception: {ex}")
-                time.sleep(5)
-                continue
+                self._stop_event.set()

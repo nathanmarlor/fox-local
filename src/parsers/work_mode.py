@@ -13,6 +13,7 @@ class WorkMode(ModbusParser, BaseParser):
 
     def can_parse(self, data: ModbusMessage):
         """Can parse"""
+        # TODO: add length to address to get full range
         return data.get_address() == self._address
 
     def parse(self, data: ModbusMessage):

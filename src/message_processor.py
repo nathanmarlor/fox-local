@@ -33,7 +33,7 @@ class MessageProcessor:
         for parser in InfoParser.__subclasses__():  # noqa
             parser = parser()
             if parser.can_parse(data):
-                _LOGGER.info(f"Using parser - {parser.__module__}")
+                _LOGGER.info(f"Using info parser - {parser.__module__}")
                 result = parser.parse(data)
                 _LOGGER.info(f"Parsed - {result}")
                 return result
@@ -45,7 +45,7 @@ class MessageProcessor:
                 # TODO: grab all parsers
                 parser = parser()
                 if parser.can_parse(data):
-                    _LOGGER.info(f"Using parser - {parser.__module__}")
+                    _LOGGER.info(f"Using modbus parser - {parser.__module__}")
                     self._parsers.put(parser)
         elif data.is_read_response():
             parser = self._parsers.get(False)
