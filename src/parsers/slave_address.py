@@ -9,7 +9,7 @@ class SlaveAddress(ModbusParser, BaseParser):
     """Inverter slave address parser"""
 
     _key = "slaveaddress"
-    _address = 41012
+    _address = 40012
     _length = 1
 
     def can_parse(self, data: ModbusMessage):

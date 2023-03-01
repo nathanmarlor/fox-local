@@ -9,7 +9,7 @@ class CT2Status(ModbusParser, BaseParser):
     """Inverter CT2 parser"""
 
     _key = "ct2status"
-    _address = 41011
+    _address = 40011
     _length = 1
 
     def can_parse(self, data: ModbusMessage):
