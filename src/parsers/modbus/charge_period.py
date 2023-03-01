@@ -2,9 +2,9 @@
 from datetime import time
 
 from modbus_message import ModbusMessage
-from parsers.modbus_parser import ModbusParser
 
-from .base_parser import BaseParser
+from ..base_parser import BaseParser
+from .modbus_parser import ModbusParser
 
 
 class ChargePeriod(ModbusParser, BaseParser):

@@ -1,15 +1,15 @@
-"""Inverter workmode parser"""
+"""Inverter slave address parser"""
 from modbus_message import ModbusMessage
-from parsers.modbus_parser import ModbusParser
 
-from .base_parser import BaseParser
+from ..base_parser import BaseParser
+from .modbus_parser import ModbusParser
 
 
-class WorkMode(ModbusParser, BaseParser):
-    """Inverter workmode parser"""
+class SlaveAddress(ModbusParser, BaseParser):
+    """Inverter slave address parser"""
 
-    _key = "workmode"
-    _address = 41000
+    _key = "slaveaddress"
+    _address = 40012
     _length = 1
 
     def can_parse(self, data: ModbusMessage):
@@ -19,4 +19,4 @@ class WorkMode(ModbusParser, BaseParser):
     def parse(self, data: ModbusMessage, index):
         """Parse data"""
         parsed = data.get_data()[index : index + self._length]
-        return {"work_mode": parsed[0]}
+        return {"slave_address": parsed[0]}

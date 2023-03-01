@@ -36,6 +36,7 @@ class MessageProcessor:
                 _LOGGER.info(f"Parsed - {result}")
                 return [result]
 
+    # TODO : add parsers as single list
     def _parse_modbus(self, data: ModbusMessage):
         """Parse info message"""
         if data.is_read_request():

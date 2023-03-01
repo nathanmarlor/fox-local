@@ -1,8 +1,8 @@
 """Inverter announce parser"""
 from fox_message import FoxMessage
-from parsers.info_parser import InfoParser
 
-from .base_parser import BaseParser
+from ..base_parser import BaseParser
+from .info_parser import InfoParser
 
 
 class DataLoggerAnnounce(InfoParser, BaseParser):

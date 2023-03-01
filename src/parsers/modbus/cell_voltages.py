@@ -1,8 +1,8 @@
 """Inverter cell voltages parser"""
 from modbus_message import ModbusMessage
-from parsers.modbus_parser import ModbusParser
 
-from .base_parser import BaseParser
+from ..base_parser import BaseParser
+from .modbus_parser import ModbusParser
 
 
 class CellVoltages(ModbusParser, BaseParser):
