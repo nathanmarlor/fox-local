@@ -1,4 +1,5 @@
 from .base_parser import *  # noqa
+from .cell_voltages import *  # noqa
 from .charge_period import *  # noqa
 from .datalogger_announce import *  # noqa
 from .info_parser import *  # noqa
