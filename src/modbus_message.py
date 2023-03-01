@@ -15,8 +15,12 @@ class ModbusMessage(FoxMessage):
     def address_is_present(self, start, length):
         """Is address present in data"""
         all_addr = self._get_all_addresses()
-        need = self._expand_addresses(start, length)
-        return set(need).issubset(all_addr)
+        parser_addr = self._expand_addresses(start, length)
+        result = set(parser_addr).issubset(all_addr)
+        if result:
+            return result, all_addr.index(start)
+        else:
+            return False, 0
 
     def is_read_request(self):
         """Is request"""

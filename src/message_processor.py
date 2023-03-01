@@ -40,13 +40,13 @@ class MessageProcessor:
         """Parse info message"""
         if data.is_read_request():
             for parser in ModbusParser.__subclasses__():  # noqa
-                # TODO: grab all parsers
                 parser = parser()
-                if parser.can_parse(data):
+                result, index = parser.can_parse(data)
+                if result:
                     _LOGGER.info(f"Storing modbus parser - {parser.__module__}")
-                    self._parsers.put(parser)
+                    self._parsers.put((index, parser))
         elif data.is_read_response():
             if not self._parsers.empty():
-                parser = self._parsers.get(False)
+                index, parser = self._parsers.get(False)
                 _LOGGER.info(f"Using modbus parser - {parser.__module__}")
-                return parser.parse(data)
+                return parser.parse(data, index)

@@ -18,9 +18,9 @@ class ChargePeriod(ModbusParser, BaseParser):
         """Can parse"""
         return data.address_is_present(self._address, self._length)
 
-    def parse(self, data: ModbusMessage):
+    def parse(self, data: ModbusMessage, index):
         """Parse data"""
-        parsed = data.get_data()
+        parsed = data.get_data()[index : index + self._length]
         return {
             "period1_enabled": bool(parsed[0]),
             "period1_start": self._get_time_str(parsed[1]),

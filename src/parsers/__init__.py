@@ -1,8 +1,10 @@
 from .base_parser import *  # noqa
 from .cell_voltages import *  # noqa
 from .charge_period import *  # noqa
+from .ct2_status import *  # noqa
 from .datalogger_announce import *  # noqa
 from .info_parser import *  # noqa
 from .inverter_announce import *  # noqa
 from .modbus_parser import *  # noqa
+from .slave_address import *  # noqa
 from .work_mode import *  # noqa

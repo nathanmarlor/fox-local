@@ -1,16 +1,16 @@
-"""Inverter cell voltages parser"""
+"""Inverter CT2 parser"""
 from modbus_message import ModbusMessage
 from parsers.modbus_parser import ModbusParser
 
 from .base_parser import BaseParser
 
 
-class CellVoltages(ModbusParser, BaseParser):
-    """Inverter cell voltages  parser"""
+class CT2Status(ModbusParser, BaseParser):
+    """Inverter CT2 parser"""
 
-    _key = "cellvoltages1-50"
-    _address = 60000
-    _length = 50
+    _key = "ct2status"
+    _address = 41011
+    _length = 1
 
     def can_parse(self, data: ModbusMessage):
         """Can parse"""
@@ -19,10 +19,4 @@ class CellVoltages(ModbusParser, BaseParser):
     def parse(self, data: ModbusMessage, index):
         """Parse data"""
         parsed = data.get_data()[index : index + self._length]
-        dictionary = {}
-
-        for i, value in enumerate(parsed):
-            key = f"cell_{i+1}"
-            dictionary[key] = value
-
-        return dictionary
+        return {"ct2_status": parsed[0]}

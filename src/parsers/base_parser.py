@@ -8,7 +8,7 @@ class BaseParser:
         """Can parse"""
         pass
 
-    def parse(self, data):
+    def parse(self, data, index):
         """Parse data"""
         pass
 
