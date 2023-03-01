@@ -18,5 +18,5 @@ class WorkMode(ModbusParser, BaseParser):
 
     def parse(self, data: ModbusMessage):
         """Parse data"""
-        # TODO: parse out work mode bytes
-        return "workmode"
+        parsed = data.get_data()
+        return {"work_mode": parsed[0]}
