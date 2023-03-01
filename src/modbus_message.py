@@ -1,5 +1,9 @@
 """Extensions to fox message"""
+import logging
+
 from fox_message import FoxMessage
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class ModbusMessage(FoxMessage):
@@ -10,7 +14,10 @@ class ModbusMessage(FoxMessage):
 
     def address_is_present(self, start, length):
         """Is address present in data"""
-        set(self._expand_addresses(start, length)).issubset(self._get_all_addresses())
+        all_addr = self._get_all_addresses()
+        need = self._expand_addresses(start, length)
+        _LOGGER.debug(f"Checking if {need} is in {all_addr}")
+        return set(need).issubset(all_addr)
 
     def is_read_request(self):
         """Is request"""
