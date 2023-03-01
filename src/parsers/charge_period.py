@@ -1,15 +1,15 @@
-"""Inverter workmode parser"""
+"""Inverter charge period parser"""
 from modbus_message import ModbusMessage
 from parsers.modbus_parser import ModbusParser
 
 from .base_parser import BaseParser
 
 
-class WorkMode(ModbusParser, BaseParser):
-    """Inverter workmode parser"""
+class ChargePeriod(ModbusParser, BaseParser):
+    """Inverter charge period parser"""
 
-    _key = "workmode"
-    _address = 41000
+    _key = "chargeperiod"
+    _address = 41001
 
     def can_parse(self, data: ModbusMessage):
         """Can parse"""
@@ -17,5 +17,5 @@ class WorkMode(ModbusParser, BaseParser):
 
     def parse(self, data: ModbusMessage):
         """Parse data"""
-        # TODO: parse out work mode bytes
-        return "workmode"
+        # TODO: parse out charge period bytes
+        return "chargeperiod"

@@ -8,9 +8,13 @@ class ModbusMessage(FoxMessage):
     _request_message = 0x11
     _response_message = 0x91
 
-    def get_address(self):
+    def get_start_address(self):
         """Get modbus read address"""
         return (self[0xB] << 8) | self[0xC]
+
+    def get_all_addresses(self):
+        """Get array of addresses"""
+        return [self.get_start_address() + 1 * i for i in range(self.get_length())]
 
     def get_length(self):
         """Get modbus read length"""

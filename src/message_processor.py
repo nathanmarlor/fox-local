@@ -19,11 +19,9 @@ class MessageProcessor:
         """Parse response"""
 
         if data.is_info():
-            _LOGGER.debug("Got info message")
             return self._parse_info(InfoMessage(data))
 
         if data.is_modbus():
-            _LOGGER.debug("Got modbus message")
             return self._parse_modbus(ModbusMessage(data))
 
         return None
