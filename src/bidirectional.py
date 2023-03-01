@@ -38,6 +38,11 @@ class FoxBidirectional:
                 target=self.passthrough, args=(processor, cloud_conn, inverter_conn)
             )
 
+            # TODO: add mqtt to inverter
+            # mqtt_inv = threading.Thread(
+            #    target=self.passthrough, args=(processor, mqtt_conn, inverter_conn)
+            # )
+
             inv_cloud.start()
             cloud_inv.start()
             inv_cloud.join()
