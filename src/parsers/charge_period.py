@@ -23,15 +23,15 @@ class ChargePeriod(ModbusParser, BaseParser):
         parsed = data.get_data()
         return {
             "period1_enabled": bool(parsed[0]),
-            "period1_start": self._get_time(parsed[1]),
-            "period1_end": self._get_time(parsed[2]),
+            "period1_start": self._get_time_str(parsed[1]),
+            "period1_end": self._get_time_str(parsed[2]),
             "period2_enabled": bool(parsed[3]),
-            "period2_start": self._get_time(parsed[4]),
-            "period2_end": self._get_time(parsed[5]),
+            "period2_start": self._get_time_str(parsed[4]),
+            "period2_end": self._get_time_str(parsed[5]),
         }
 
-    def _get_time(self, raw_time):
+    def _get_time_str(self, raw_time):
         """Get time from an integer"""
         hours = raw_time // 256
         minutes = raw_time - (hours * 256)
-        return time(hour=hours, minute=minutes)
+        return str(time(hour=hours, minute=minutes))
