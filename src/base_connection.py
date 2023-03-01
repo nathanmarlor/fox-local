@@ -43,7 +43,7 @@ class BaseConnection:
 
     def _send_thread(self, sock, send_queue):
         """Send thread"""
-        while self._stop_event.is_set():
+        while not self._stop_event.is_set():
             try:
                 data = send_queue.get(True, 1)
                 sock.sendall(bytes(data))

@@ -34,7 +34,7 @@ class MessageProcessor:
                 _LOGGER.info(f"Using info parser - {parser.__module__}")
                 result = parser.parse(data)
                 _LOGGER.info(f"Parsed - {result}")
-                return result
+                return [result]
 
     def _parse_modbus(self, data: ModbusMessage):
         """Parse info message"""
