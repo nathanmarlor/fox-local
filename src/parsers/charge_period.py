@@ -10,10 +10,11 @@ class ChargePeriod(ModbusParser, BaseParser):
 
     _key = "chargeperiod"
     _address = 41001
+    _length = 6
 
     def can_parse(self, data: ModbusMessage):
         """Can parse"""
-        return self._address in data.get_all_addresses()
+        return data.address_is_present(self._address, self._length)
 
     def parse(self, data: ModbusMessage):
         """Parse data"""
