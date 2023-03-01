@@ -43,9 +43,7 @@ class BaseConnection:
 
     def _send_thread(self, sock, send_queue):
         """Send thread"""
-        while True:
-            if self._stop_event.is_set():
-                break
+        while self._stop_event.is_set():
             try:
                 data = send_queue.get(True, 1)
                 sock.sendall(bytes(data))
@@ -58,9 +56,7 @@ class BaseConnection:
 
     def _receive_thread(self, sock, receive_queue):
         """Receieve thread"""
-        while True:
-            if self._stop_event.is_set():
-                break
+        while not self._stop_event.is_set():
             try:
                 read, _, _ = select.select([sock], [], [], 1)
                 if sock in read:

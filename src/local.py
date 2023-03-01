@@ -45,9 +45,7 @@ class FoxLocal:
     def passthrough(self, processor, client, server):
         """Loop to receive from inverter and send to cloud"""
 
-        while True:
-            if self._stop_event.is_set():
-                break
+        while self._stop_event.is_set():
             try:
                 data = client.receive()
             except queue.Empty:

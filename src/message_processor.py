@@ -46,6 +46,9 @@ class MessageProcessor:
                     _LOGGER.info(f"Storing modbus parser - {parser.__module__}")
                     self._parsers.put((index, parser))
         elif data.is_read_response():
-            for index, parser in self._parsers:
+            parsed_data = []
+            while not self._parsers.empty():
+                index, parser = self._parsers.get(False)
                 _LOGGER.info(f"Using modbus parser - {parser.__module__}")
-                return parser.parse(data, index)
+                parsed_data.append(parser.parse(data, index))
+            return parsed_data

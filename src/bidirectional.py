@@ -54,15 +54,14 @@ class FoxBidirectional:
     def passthrough(self, processor, client, server):
         """Loop to receive from inverter and send to cloud"""
 
-        while True:
-            if self._stop_event.is_set():
-                break
+        while not self._stop_event.is_set():
             try:
                 data = client.receive()
             except queue.Empty:
                 continue
-            result = processor.parse(data)
-            if result is not None:
-                _LOGGER.debug(f"Sending result to MQTT - {result}")
-                # TODO: forward to MQTT
+            results = processor.parse(data)
+            if results:
+                for result in results:
+                    _LOGGER.debug(f"Sending result to MQTT - {result}")
+                    # TODO: forward to MQTT
             server.send(data)

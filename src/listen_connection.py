@@ -23,9 +23,7 @@ class ListenConnection(BaseConnection):
                 server_sock.bind((self._host, self._port))
                 server_sock.listen(1)
                 _LOGGER.info(f"Listening on {self._host}:{self._port}")
-                while True:
-                    if self._stop_event.is_set():
-                        break
+                while not self._stop_event.is_set():
                     read, _, _ = select.select([server_sock], [], [], 1)
                     if server_sock in read:
                         try:
