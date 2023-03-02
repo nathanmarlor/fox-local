@@ -14,9 +14,13 @@ class WorkMode(ModbusParser, BaseParser):
 
     def can_parse(self, data: ModbusMessage):
         """Can parse"""
-        return data.address_is_present(self._address, self._length)
+        return (
+            data.address_is_present(self._address, self._length),
+            data.get_all_addresses(),
+        )
 
-    def parse_modbus(self, data: ModbusMessage, index):
+    def parse_modbus(self, data: ModbusMessage, addresses):
         """Parse data"""
+        index = addresses.index(self._address)
         parsed = data.get_data()[index : index + self._length]
         return self._key, {"work_mode": parsed[0]}

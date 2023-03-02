@@ -16,11 +16,7 @@ class ModbusMessage(FoxMessage):
         """Is address present in data"""
         all_addr = self.get_all_addresses()
         parser_addr = self._expand_addresses(start, length)
-        result = set(parser_addr).issubset(all_addr)
-        if result:
-            return result, all_addr.index(start)
-        else:
-            return False, 0
+        return set(parser_addr).issubset(all_addr)
 
     def is_read_request(self):
         """Is request"""
@@ -41,7 +37,7 @@ class ModbusMessage(FoxMessage):
 
     def get_all_addresses(self):
         """Get array of addresses"""
-        return [self._get_start_address() + 1 * i for i in range(self._get_length())]
+        return self._expand_addresses(self._get_start_address(), self._get_length())
 
     def _get_start_address(self):
         """Get modbus read address"""
@@ -53,4 +49,4 @@ class ModbusMessage(FoxMessage):
 
     def _expand_addresses(self, start, length):
         """Expand addresses into array"""
-        return [start + 1 * i for i in range(length)]
+        return [start + (1 * i) for i in range(length)]

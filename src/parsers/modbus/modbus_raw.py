@@ -12,10 +12,10 @@ class ModbusRaw(ModbusParser, BaseParser):
 
     def can_parse(self, data: ModbusMessage):
         """Can parse"""
-        return True, 0
+        return True, data.get_all_addresses()
 
-    def parse_modbus(self, data: ModbusMessage, index):
+    def parse_modbus(self, data: ModbusMessage, addresses):
         """Parse data"""
         parsed = data.get_data()
 
-        return self._key, (data.get_all_addresses(), parsed)
+        return self._key, (addresses, parsed)

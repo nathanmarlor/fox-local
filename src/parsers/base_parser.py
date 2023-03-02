@@ -12,7 +12,7 @@ class BaseParser:
         """Parse data"""
         pass
 
-    def parse_modbus(self, data, index):
+    def parse_modbus(self, data, addresses):
         """Parse data"""
         pass
 

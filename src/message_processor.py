@@ -46,14 +46,14 @@ class MessageProcessor:
         if data.is_read_request():
             for parser in self._modbus_parsers:
                 parser = parser()
-                result, index = parser.can_parse(data)
+                result, addresses = parser.can_parse(data)
                 if result:
                     _LOGGER.info(f"Storing modbus parser - {parser.__module__}")
-                    self._parsers.put((index, parser))
+                    self._parsers.put((addresses, parser))
         elif data.is_read_response():
             parsed_data = []
             while not self._parsers.empty():
-                index, parser = self._parsers.get_nowait()
+                addresses, parser = self._parsers.get_nowait()
                 _LOGGER.info(f"Using modbus parser - {parser.__module__}")
-                parsed_data.append(parser.parse_modbus(data, index))
+                parsed_data.append(parser.parse_modbus(data, addresses))
             return parsed_data
