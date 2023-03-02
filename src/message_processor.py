@@ -13,9 +13,11 @@ _LOGGER = logging.getLogger(__name__)
 class MessageProcessor:
     """Process responses from the inverter"""
 
-    _info_parsers = InfoParser.__subclasses__()  # noqa
-    _modbus_parsers = ModbusParser.__subclasses__()  # noqa
-    _parsers = Queue()
+    def __init__(self):
+        """Init"""
+        self._info_parsers = InfoParser.__subclasses__()  # noqa
+        self._modbus_parsers = ModbusParser.__subclasses__()  # noqa
+        self._parsers = Queue()
 
     def parse(self, data: FoxMessage):
         """Parse response"""

@@ -14,7 +14,9 @@ _LOGGER = logging.getLogger(__name__)
 class FoxBidirectional:
     """Bidirectional class"""
 
-    _stop_event = threading.Event()
+    def __init__(self):
+        """Init"""
+        self._stop_event = threading.Event()
 
     def run(self):
         """Run the loop"""
