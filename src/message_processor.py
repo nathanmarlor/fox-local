@@ -31,13 +31,13 @@ class MessageProcessor:
 
     def _parse_info(self, data: InfoMessage):
         """Parse info message"""
-        parsed_data = []
-        for parser in self._info_parsers:
-            parser = parser()
-            if parser.can_parse(data):
-                _LOGGER.info(f"Using info parser - {parser.__module__}")
-                parsed_data.append(parser.parse_info(data))
-        return parsed_data
+        parsers = [
+            parser() for parser in self._info_parsers if parser().can_parse(data)
+        ]
+        for parser in parsers:
+            _LOGGER.info(f"Using info parser - {parser.__module__}")
+
+        return [parser.parse_info(data) for parser in parsers]
 
     def _parse_modbus(self, data: ModbusMessage):
         """Parse info message"""
