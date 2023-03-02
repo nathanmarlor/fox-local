@@ -1,6 +1,7 @@
 from .base_parser import *  # noqa
 from .info.datalogger_announce import *  # noqa
 from .info.info_parser import *  # noqa
+from .info.info_raw import *  # noqa
 from .info.inverter_announce import *  # noqa
 from .modbus.cell_voltages import *  # noqa
 from .modbus.charge_period import *  # noqa
