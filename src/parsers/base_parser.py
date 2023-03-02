@@ -8,7 +8,11 @@ class BaseParser:
         """Can parse"""
         pass
 
-    def parse(self, data, index):
+    def parse_info(self, data):
+        """Parse data"""
+        pass
+
+    def parse_modbus(self, data, index):
         """Parse data"""
         pass
 

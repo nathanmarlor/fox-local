@@ -16,7 +16,7 @@ class SlaveAddress(ModbusParser, BaseParser):
         """Can parse"""
         return data.address_is_present(self._address, self._length)
 
-    def parse(self, data: ModbusMessage, index):
+    def parse_modbus(self, data: ModbusMessage, index):
         """Parse data"""
         parsed = data.get_data()[index : index + self._length]
-        return {"slave_address": parsed[0]}
+        return self._key, {"slave_address": parsed[0]}

@@ -47,7 +47,6 @@ class BaseConnection:
             try:
                 data = send_queue.get(True, 1)
                 sock.sendall(bytes(data))
-                _LOGGER.debug(f"Sent to ({self._host}): {data}")
             except queue.Empty:
                 continue
             except Exception as ex:
@@ -66,7 +65,6 @@ class BaseConnection:
                             f"({self._host}) - Connection closed by remote host"
                         )
                     receive_queue.put(data)
-                    _LOGGER.debug(f"Received from ({self._host}): {data}")
             except Exception as ex:
                 _LOGGER.warning(f"({self._host}) Receive exception: {ex}")
                 self._stop_event.set()

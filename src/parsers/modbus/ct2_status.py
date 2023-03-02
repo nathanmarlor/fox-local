@@ -16,7 +16,7 @@ class CT2Status(ModbusParser, BaseParser):
         """Can parse"""
         return data.address_is_present(self._address, self._length)
 
-    def parse(self, data: ModbusMessage, index):
+    def parse_modbus(self, data: ModbusMessage, index):
         """Parse data"""
         parsed = data.get_data()[index : index + self._length]
-        return {"ct2_status": parsed[0]}
+        return self._key, {"ct2_status": parsed[0]}

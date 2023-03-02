@@ -16,7 +16,7 @@ class CellVoltages(ModbusParser, BaseParser):
         """Can parse"""
         return data.address_is_present(self._address, self._length)
 
-    def parse(self, data: ModbusMessage, index):
+    def parse_modbus(self, data: ModbusMessage, index):
         """Parse data"""
         parsed = data.get_data()[index : index + self._length]
         dictionary = {}
@@ -25,4 +25,4 @@ class CellVoltages(ModbusParser, BaseParser):
             key = f"cell_{i+1}"
             dictionary[key] = value
 
-        return dictionary
+        return self._key, dictionary

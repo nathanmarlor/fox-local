@@ -17,6 +17,6 @@ class DataLoggerAnnounce(InfoParser, BaseParser):
         """Can parse"""
         return data[0x02] == self._message_type
 
-    def parse(self, data: FoxMessage):
+    def parse_info(self, data: FoxMessage):
         """Parse data"""
         return self._key, data.to_string(self._message_start, self._message_length)

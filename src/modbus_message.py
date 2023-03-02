@@ -14,7 +14,7 @@ class ModbusMessage(FoxMessage):
 
     def address_is_present(self, start, length):
         """Is address present in data"""
-        all_addr = self._get_all_addresses()
+        all_addr = self.get_all_addresses()
         parser_addr = self._expand_addresses(start, length)
         result = set(parser_addr).issubset(all_addr)
         if result:
@@ -39,7 +39,7 @@ class ModbusMessage(FoxMessage):
             data.append(value)
         return data
 
-    def _get_all_addresses(self):
+    def get_all_addresses(self):
         """Get array of addresses"""
         return [self._get_start_address() + 1 * i for i in range(self._get_length())]
 

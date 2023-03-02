@@ -6,5 +6,6 @@ from .modbus.cell_voltages import *  # noqa
 from .modbus.charge_period import *  # noqa
 from .modbus.ct2_status import *  # noqa
 from .modbus.modbus_parser import *  # noqa
+from .modbus.modbus_raw import *  # noqa
 from .modbus.slave_address import *  # noqa
 from .modbus.work_mode import *  # noqa

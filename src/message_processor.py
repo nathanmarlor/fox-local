@@ -32,7 +32,7 @@ class MessageProcessor:
             parser = parser()
             if parser.can_parse(data):
                 _LOGGER.info(f"Using info parser - {parser.__module__}")
-                result = parser.parse(data)
+                result = parser.parse_info(data)
                 _LOGGER.info(f"Parsed - {result}")
                 return [result]
 
@@ -51,5 +51,5 @@ class MessageProcessor:
             while not self._parsers.empty():
                 index, parser = self._parsers.get_nowait()
                 _LOGGER.info(f"Using modbus parser - {parser.__module__}")
-                parsed_data.append(parser.parse(data, index))
+                parsed_data.append(parser.parse_modbus(data, index))
             return parsed_data
