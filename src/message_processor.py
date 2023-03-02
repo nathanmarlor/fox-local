@@ -52,7 +52,7 @@ class MessageProcessor:
         elif data.is_read_response():
             seq = data.get_sequence()
             if seq in self._parsers:
-                parsers = self._parsers[seq]
+                parsers = self._parsers.pop(seq)
                 for parser in parsers:
                     _LOGGER.info(f"Using modbus parser ({seq}) - {parser.__module__}")
                 return [
