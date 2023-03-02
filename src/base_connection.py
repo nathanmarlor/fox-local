@@ -60,6 +60,9 @@ class BaseConnection:
                 read, _, _ = select.select([sock], [], [], 1)
                 if sock in read:
                     data = FoxMessage(sock.recv(1024))
+                    data = FoxMessage(
+                        b"\x7f\x7f\x11\xcex\xfc4\x00\x06\x01\x03\xa7\xf8\x00\x1b7\xaf\xf7\xf7"
+                    )
                     if not data:
                         raise ConnectionError(
                             f"({self._host}) - Connection closed by remote host"

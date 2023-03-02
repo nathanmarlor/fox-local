@@ -1,6 +1,5 @@
 """Process responses from the inverter"""
 import logging
-from queue import Queue
 
 from fox_message import FoxMessage
 from info_message import InfoMessage
@@ -17,7 +16,7 @@ class MessageProcessor:
         """Init"""
         self._info_parsers = InfoParser.__subclasses__()  # noqa
         self._modbus_parsers = ModbusParser.__subclasses__()  # noqa
-        self._parsers = Queue()
+        self._parsers = dict()
 
     def parse(self, data: FoxMessage):
         """Parse response"""
@@ -40,20 +39,22 @@ class MessageProcessor:
                 parsed_data.append(parser.parse_info(data))
         return parsed_data
 
-    # TODO : add parsers as single list
     def _parse_modbus(self, data: ModbusMessage):
         """Parse info message"""
         if data.is_read_request():
-            for parser in self._modbus_parsers:
-                parser = parser()
-                result, addresses = parser.can_parse(data)
-                if result:
-                    _LOGGER.info(f"Storing modbus parser - {parser.__module__}")
-                    self._parsers.put((addresses, parser))
+            parsers = [
+                parser() for parser in self._modbus_parsers if parser().can_parse(data)
+            ]
+            for parser in parsers:
+                _LOGGER.info(f"Storing modbus parser - {parser.__module__}")
+            self._parsers[data.get_sequence()] = (data.get_all_addresses(), parsers)
         elif data.is_read_response():
-            parsed_data = []
-            while not self._parsers.empty():
-                addresses, parser = self._parsers.get_nowait()
-                _LOGGER.info(f"Using modbus parser - {parser.__module__}")
-                parsed_data.append(parser.parse_modbus(data, addresses))
-            return parsed_data
+            seq = data.get_sequence()
+            if seq in self._parsers:
+                parsers = self._parsers[seq]
+                for parser in parsers:
+                    _LOGGER.info(f"Using modbus parser - {parser.__module__}")
+                return [
+                    parser.parse_modbus(data, addresses)
+                    for addresses, parser in parsers
+                ]

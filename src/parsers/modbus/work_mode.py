@@ -14,10 +14,7 @@ class WorkMode(ModbusParser, BaseParser):
 
     def can_parse(self, data: ModbusMessage):
         """Can parse"""
-        return (
-            data.address_is_present(self._address, self._length),
-            data.get_all_addresses(),
-        )
+        return data.address_is_present(self._address, self._length)
 
     def parse_modbus(self, data: ModbusMessage, addresses):
         """Parse data"""
