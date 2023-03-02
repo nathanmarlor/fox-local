@@ -13,6 +13,8 @@ _LOGGER = logging.getLogger(__name__)
 class MessageProcessor:
     """Process responses from the inverter"""
 
+    _info_parsers = InfoParser.__subclasses__()  # noqa
+    _modbus_parsers = ModbusParser.__subclasses__()  # noqa
     _parsers = Queue()
 
     def parse(self, data: FoxMessage):
@@ -28,19 +30,19 @@ class MessageProcessor:
 
     def _parse_info(self, data: InfoMessage):
         """Parse info message"""
-        for parser in InfoParser.__subclasses__():  # noqa
+        parsed_data = []
+        for parser in self._info_parsers:
             parser = parser()
             if parser.can_parse(data):
                 _LOGGER.info(f"Using info parser - {parser.__module__}")
-                result = parser.parse_info(data)
-                _LOGGER.info(f"Parsed - {result}")
-                return [result]
+                parsed_data.append(parser.parse_info(data))
+        return parsed_data
 
     # TODO : add parsers as single list
     def _parse_modbus(self, data: ModbusMessage):
         """Parse info message"""
         if data.is_read_request():
-            for parser in ModbusParser.__subclasses__():  # noqa
+            for parser in self._modbus_parsers:
                 parser = parser()
                 result, index = parser.can_parse(data)
                 if result:
