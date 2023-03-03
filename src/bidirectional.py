@@ -69,26 +69,30 @@ class FoxBidirectional:
         while not self._stop_event.is_set():
             try:
                 data = client.receive()
+                address, length = map(int, data.split(",", maxsplit=1))
+                request = ModbusRequest(address, length).build()
+                _LOGGER.debug(
+                    f"Sending request for address ({address}) with length ({length})"
+                )
+                processor.parse(request)
+                server.send(request)
             except queue.Empty:
                 continue
-            address, length = map(int, data.split(",", maxsplit=1))
-            request = ModbusRequest(address, length).build()
-            _LOGGER.debug(
-                f"Sending request for address ({address}) with length ({length})"
-            )
-            processor.parse(request)
-            server.send(request)
+            except Exception as ex:
+                _LOGGER.warning(f"Error during refresh processing - {ex}")
 
     def passthrough(self, processor, client, server):
         """Loop to receive from inverter and send to cloud"""
         while not self._stop_event.is_set():
             try:
                 data = client.receive()
+                results = processor.parse(data)
+                if results:
+                    for result in results:
+                        _LOGGER.debug(f"Sending result to MQTT - {result}")
+                        # TODO: forward to MQTT
+                server.send(data)
             except queue.Empty:
                 continue
-            results = processor.parse(data)
-            if results:
-                for result in results:
-                    _LOGGER.debug(f"Sending result to MQTT - {result}")
-                    # TODO: forward to MQTT
-            server.send(data)
+            except Exception as ex:
+                _LOGGER.warning(f"Error during passthrough processing - {ex}")
