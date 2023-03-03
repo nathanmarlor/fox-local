@@ -2,19 +2,16 @@
 from modbus_builder import ModbusBuilder
 
 
-class ModbusRequest(ModbusBuilder):
+class ModbusWrite(ModbusBuilder):
     """Modbus request message"""
 
-    _function = 0x3
-    _type_byte = 0x11
+    _function = 0x06
+    _type_byte = 0x12
+    _quantity = 1
 
-    def __init__(
-        self,
-        address,
-        quantity,
-    ):
+    def __init__(self, address, data):
         self._address = address
-        self._quantity = quantity
+        self._data = data
 
     def build(self):
         """Modbus request"""
@@ -25,5 +22,6 @@ class ModbusRequest(ModbusBuilder):
             self._address & 0xFF,
             (self._quantity >> 8) & 0xFF,
             self._quantity & 0xFF,
+            self._data,
         ]
         return self._to_bytes(self._type_byte, data)
