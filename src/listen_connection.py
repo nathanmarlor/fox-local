@@ -4,12 +4,12 @@ import select
 import socket
 import threading
 
-from base_connection import BaseConnection
+from socket_connection import SocketConnection
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class ListenConnection(BaseConnection):
+class ListenConnection(SocketConnection):
     """Manages connections"""
 
     def initialise(self):

@@ -34,8 +34,8 @@ class MessageProcessor:
         parsers = [
             parser() for parser in self._info_parsers if parser().can_parse(data)
         ]
-        for parser in parsers:
-            _LOGGER.info(f"Using info parser - {parser.__module__}")
+        parser_names = [parser.__module__ for parser in parsers]
+        _LOGGER.info(f"Using info parsers - ({parser_names})")
 
         return [parser.parse_info(data) for parser in parsers]
 
@@ -46,8 +46,8 @@ class MessageProcessor:
                 parser() for parser in self._modbus_parsers if parser().can_parse(data)
             ]
             seq = data.get_sequence()
-            for parser in parsers:
-                _LOGGER.info(f"Storing modbus parsers ({seq}) - {parser.__module__}")
+            parser_names = [parser.__module__ for parser in parsers]
+            _LOGGER.info(f"Storing modbus parsers ({seq}) - ({parser_names})")
             self._parsers[seq] = (data.get_all_addresses(), parsers)
         elif data.is_read_response():
             seq = data.get_sequence()

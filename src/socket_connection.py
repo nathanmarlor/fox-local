@@ -9,7 +9,7 @@ from fox_message import FoxMessage
 _LOGGER = logging.getLogger(__name__)
 
 
-class BaseConnection:
+class SocketConnection:
     """Manages connections"""
 
     def __init__(self, stop_event, host, port):
