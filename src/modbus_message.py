@@ -41,7 +41,7 @@ class ModbusMessage(FoxMessage):
 
     def get_sequence(self):
         """Get sequence number"""
-        return int.from_bytes(self[3:7], byteorder="big", signed=False)
+        return int.from_bytes(self[3:7])
 
     def _get_start_address(self):
         """Get modbus read address"""
