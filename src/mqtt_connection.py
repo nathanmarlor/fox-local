@@ -15,9 +15,7 @@ class MQTTConnection(Connection):
     def __init__(self, host, port):
         self.host = host
         self.port = port
-        self.client = mqtt.Client()
-        self.client.on_connect = self._on_connect
-        self.client.on_message = self._on_message
+        self.client = None
         self.queue = queue.Queue()
 
     def send(self, data):
@@ -38,6 +36,9 @@ class MQTTConnection(Connection):
 
     def initialise(self):
         """Initiate new connections"""
+        self.client = mqtt.Client()
+        self.client.on_connect = self._on_connect
+        self.client.on_message = self._on_message
         threading.Thread(target=self._start).start()
 
     def _start(self):
