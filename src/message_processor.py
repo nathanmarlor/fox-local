@@ -34,8 +34,7 @@ class MessageProcessor:
         parsers = [
             parser() for parser in self._info_parsers if parser().can_parse(data)
         ]
-        parser_names = [parser.__module__ for parser in parsers]
-        _LOGGER.info(f"Using info parsers - ({parser_names})")
+        _LOGGER.info(f"Using info parsers - ({self._parser_names(parsers)})")
 
         return [parser.parse_info(data) for parser in parsers]
 
@@ -46,13 +45,19 @@ class MessageProcessor:
                 parser() for parser in self._modbus_parsers if parser().can_parse(data)
             ]
             seq = data.get_sequence()
-            parser_names = [parser.__module__ for parser in parsers]
-            _LOGGER.info(f"Storing modbus parsers ({seq}) - ({parser_names})")
+            _LOGGER.info(
+                f"Storing modbus parsers ({seq}) - ({self._parser_names(parsers)})"
+            )
             self._parsers[seq] = (data.get_all_addresses(), parsers)
         elif data.is_read_response():
             seq = data.get_sequence()
             if seq in self._parsers:
                 addresses, parsers = self._parsers.pop(seq)
-                for parser in parsers:
-                    _LOGGER.info(f"Using modbus parser ({seq}) - {parser.__module__}")
+                _LOGGER.info(
+                    f"Using modbus parsers ({seq}) - ({self._parser_names(parsers)})"
+                )
                 return [parser.parse_modbus(data, addresses) for parser in parsers]
+
+    def _parser_names(self, parsers):
+        """Get parser names in a list"""
+        return [parser.__module__ for parser in parsers]
