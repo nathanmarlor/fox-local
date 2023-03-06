@@ -37,17 +37,17 @@ class ModbusMessage(FoxMessage):
 
     def get_all_addresses(self):
         """Get array of addresses"""
-        return self._expand_addresses(self._get_start_address(), self._get_length())
+        return self._expand_addresses(self.get_start_address(), self.get_length())
 
     def get_sequence(self):
         """Get sequence number"""
         return int.from_bytes(self[3:7])
 
-    def _get_start_address(self):
+    def get_start_address(self):
         """Get modbus read address"""
         return (self[0xB] << 8) | self[0xC]
 
-    def _get_length(self):
+    def get_length(self):
         """Get modbus read length"""
         return (self[0xD] << 8) | self[0xE]
 

@@ -46,7 +46,7 @@ class MessageProcessor:
             ]
             seq = data.get_sequence()
             _LOGGER.info(
-                f"Storing modbus parsers ({seq}) - ({self._parser_names(parsers)})"
+                f"Storing modbus parsers ({seq}) - ({data.get_start_address()}:{data.get_length()}) ({self._parser_names(parsers)})"
             )
             self._parsers[seq] = (data.get_all_addresses(), parsers)
         elif data.is_read_response():
