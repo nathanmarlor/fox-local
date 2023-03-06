@@ -32,7 +32,7 @@ class FoxBidirectional:
             cloud_conn = DirectConnection(self._stop_event, "foxesscloud.com", 10001)
             cloud_conn.initialise()
 
-            mqtt = MQTTConnection("192.168.10.42", 1883)
+            mqtt = MQTTConnection("mosquitto-svc", 1883)
             mqtt.initialise()
 
             processor = MessageProcessor()
